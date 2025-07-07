@@ -1,0 +1,7 @@
+CREATE TABLE address (
+    id BINARY(16) PRIMARY KEY DEFAULT (UUID_TO_BIN(UUID())),
+    city VARCHAR(100) NOT NULL,
+    uf VARCHAR(100) NOT NULL,
+    event_id BINARY(16),
+    FOREIGN KEY (event_id) REFERENCES event(id) ON DELETE CASCADE
+);

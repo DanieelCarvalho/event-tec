@@ -1,9 +1,9 @@
-package br.com.api.eventos_tec.domain.coupon;
+package br.com.api.eventos_tec.domain.model.coupon;
 
 import java.sql.Date;
 import java.util.UUID;
 
-import br.com.api.eventos_tec.domain.event.Event;
+import br.com.api.eventos_tec.domain.model.event.Event;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;

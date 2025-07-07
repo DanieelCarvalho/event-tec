@@ -1,0 +1,9 @@
+CREATE TABLE event (
+    id BINARY(16) PRIMARY KEY DEFAULT (UUID_TO_BIN(UUID())),
+    title VARCHAR(100) NOT NULL,
+    description VARCHAR(100) NOT NULL,
+    img_url VARCHAR(100) NOT NULL,
+    event_url VARCHAR(100) NOT NULL,
+    date TIMESTAMP NOT NULL,
+    remote BOOLEAN NOT NULL
+);

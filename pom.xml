@@ -83,6 +83,24 @@
     <version>8.0.33</version>
 </dependency>
 
+ <dependency>
+    <groupId>org.flywaydb</groupId>
+    <artifactId>flyway-core</artifactId>
+    <version>9.22.3</version>
+</dependency>
+<dependency>
+    <groupId>org.flywaydb</groupId>
+    <artifactId>flyway-mysql</artifactId>
+    <version>9.22.3</version>
+</dependency>
+
+    <dependency>
+		<groupId>com.amazonaws</groupId>
+		<artifactId>aws-java-sdk-s3</artifactId>
+		<version>1.12.320</version>
+	</dependency>
+	
+
 
 	</dependencies>
 

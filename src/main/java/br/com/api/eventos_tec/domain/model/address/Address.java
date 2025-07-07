@@ -1,39 +1,37 @@
-package br.com.api.eventos_tec.domain.event;
+package br.com.api.eventos_tec.domain.model.address;
 
-import java.sql.Date;
 import java.util.UUID;
 
+import br.com.api.eventos_tec.domain.model.event.Event;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Table(name = "event")
+@Table(name = "address")
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class Event {
+@NoArgsConstructor
+public class Address {
 
     @Id
     @GeneratedValue
     private UUID id;
 
-    private String title;
+    private String city;
 
-    private String description;
+    private String uf;
 
-    private String imgUrl;
-
-    private String eventUrl;
-
-    private Boolean remote;
-
-    private Date date;
+    @ManyToOne
+    @JoinColumn(name = "event_id")
+    private Event event;
 
 }

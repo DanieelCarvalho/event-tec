@@ -1,0 +1,2 @@
+ALTER TABLE event
+MODIFY img_url VARCHAR(1000);

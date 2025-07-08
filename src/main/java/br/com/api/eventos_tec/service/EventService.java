@@ -3,9 +3,10 @@ package br.com.api.eventos_tec.service;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,8 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.amazonaws.services.s3.AmazonS3;
 
+import br.com.api.eventos_tec.domain.dto.EventDetailsDTO;
 import br.com.api.eventos_tec.domain.dto.EventRequestDTO;
 import br.com.api.eventos_tec.domain.dto.EventResponseDTO;
+import br.com.api.eventos_tec.domain.model.coupon.Coupon;
 import br.com.api.eventos_tec.domain.model.event.Event;
 import br.com.api.eventos_tec.repositories.EventRepository;
 
@@ -34,6 +37,9 @@ public class EventService {
 
     @Autowired
     private AddressService addressService;
+
+    @Autowired
+    private CouponService couponService;
 
     @Autowired
     private AmazonS3 s3Client;
@@ -111,7 +117,7 @@ public class EventService {
         city = (city != null) ? city : "";
         uf = (uf != null) ? uf : "";
         starDate = (starDate != null) ? starDate : new Date(0);
-        endDate = (endDate != null) ? endDate : new Date();
+        endDate = (endDate != null) ? endDate : new java.sql.Date(System.currentTimeMillis());
 
         Pageable pageable = PageRequest.of(page, size);
         Date currentDate = new Date(System.currentTimeMillis());
@@ -141,6 +147,33 @@ public class EventService {
         fos.write(multipartFile.getBytes());
         fos.close();
         return convFile;
+    }
+
+    public EventDetailsDTO getEventDetails(UUID eventId) {
+
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new IllegalArgumentException("Event not found"));
+
+        List<Coupon> coupons = couponService.consultCoupons(eventId, new java.sql.Date(new Date().getTime()));
+
+        List<EventDetailsDTO.CouponDTO> couponDTOs = coupons.stream()
+                .map(coupon -> new EventDetailsDTO.CouponDTO(
+                        coupon.getCode(),
+                        coupon.getDiscount(),
+                        coupon.getValid()))
+                .collect(Collectors.toList());
+
+        return new EventDetailsDTO(
+                event.getId(),
+                event.getTitle(),
+                event.getDescription(),
+                event.getDate(),
+                event.getAddress() != null ? event.getAddress().getCity() : "",
+                event.getAddress() != null ? event.getAddress().getUf() : "",
+                event.getEventUrl(),
+                event.getImgUrl(),
+                couponDTOs);
+
     }
 
 }

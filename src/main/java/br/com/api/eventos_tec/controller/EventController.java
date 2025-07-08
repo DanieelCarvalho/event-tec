@@ -2,6 +2,7 @@ package br.com.api.eventos_tec.controller;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,6 +18,7 @@ import br.com.api.eventos_tec.service.EventService;
 import br.com.api.eventos_tec.domain.model.event.Event;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @RestController
@@ -63,6 +65,15 @@ public class EventController {
         List<EventResponseDTO> events = eventService.getFilteredEvents(page, size, title, city, uf, startDate, endDate);
 
         return ResponseEntity.ok(events);
+
+    }
+
+    @GetMapping("/{eventId}")
+    public ResponseEntity<EventDetailsDto> getEventDetails(@PathVariable UUID eventId) {
+
+        EventDetaisDTO eventDetails = eventService.getEventDetails(eventId);
+
+        return ResponseEntity.ok(eventDetails);
 
     }
 

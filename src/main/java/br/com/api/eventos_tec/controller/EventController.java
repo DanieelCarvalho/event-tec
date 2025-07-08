@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import br.com.api.eventos_tec.domain.dto.EventDetailsDTO;
 import br.com.api.eventos_tec.domain.dto.EventRequestDTO;
 import br.com.api.eventos_tec.domain.dto.EventResponseDTO;
 import br.com.api.eventos_tec.service.EventService;
@@ -69,9 +70,9 @@ public class EventController {
     }
 
     @GetMapping("/{eventId}")
-    public ResponseEntity<EventDetailsDto> getEventDetails(@PathVariable UUID eventId) {
+    public ResponseEntity<EventDetailsDTO> getEventDetails(@PathVariable UUID eventId) {
 
-        EventDetaisDTO eventDetails = eventService.getEventDetails(eventId);
+        EventDetailsDTO eventDetails = eventService.getEventDetails(eventId);
 
         return ResponseEntity.ok(eventDetails);
 

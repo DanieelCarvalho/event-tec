@@ -3,7 +3,7 @@ package br.com.api.eventos_tec.service;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -153,8 +153,9 @@ public class EventService {
 
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new IllegalArgumentException("Event not found"));
+        Date currentDate = new Date(System.currentTimeMillis());
 
-        List<Coupon> coupons = couponService.consultCoupons(eventId, new java.sql.Date(new Date().getTime()));
+        List<Coupon> coupons = couponService.consultCoupons(eventId, currentDate);
 
         List<EventDetailsDTO.CouponDTO> couponDTOs = coupons.stream()
                 .map(coupon -> new EventDetailsDTO.CouponDTO(
